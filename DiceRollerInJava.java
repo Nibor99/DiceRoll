@@ -8,12 +8,17 @@ public class DiceRollerInJava {
 
     // This has printing information for all numbers
     // For each number,3x3 matrix represents the face
-    int[][][] faceConfig = { { { 0, 0, 0 }, { 0, 1, 0 }, { 0, 0, 0 } },
+    int[][][] faceConfig = {
+            { { 0, 0, 0 }, { 0, 1, 0 }, { 0, 0, 0 } },
             { { 0, 0, 1 }, { 0, 0, 0 }, { 1, 0, 0 } },
             { { 0, 0, 1 }, { 0, 1, 0 }, { 1, 0, 0 } },
             { { 1, 0, 1 }, { 0, 0, 0 }, { 1, 0, 1 } },
             { { 1, 0, 1 }, { 0, 1, 0 }, { 1, 0, 1 } },
-            { { 1, 0, 1 }, { 1, 0, 1 }, { 1, 0, 1 } } };
+            { { 1, 0, 1 }, { 1, 0, 1 }, { 1, 0, 1 } },
+            { { 1, 0, 1 }, { 1, 1, 1 }, { 1, 0, 1 } },
+            { { 1, 1, 1 }, { 1, 0, 1 }, { 1, 1, 1 } },
+            { { 1, 0, 1 }, { 1, 1, 1 }, { 1, 0, 1 } },
+    };
 
 
 
@@ -36,12 +41,14 @@ public class DiceRollerInJava {
             System.out.println("How many dices do you want to roll? (type an integer value):");
             Integer dices = Integer.valueOf(scanner.nextLine());
 
-            for (int i = 0; i < dices; i++) {
-                int result = dice.roll();
-                values.add(result);
-                System.out.println("dice face value:" + result);
-                dice.draw(result);
+            System.out.println("What do you want the maximum dice value to be?");
+            Integer maxVal = Integer.valueOf(scanner.nextLine());
 
+            for (int i = 0; i < dices; i++) {
+                int result = dice.roll(maxVal);
+                values.add(result);
+                System.out.println("Value:" + result);
+                dice.draw(result);
             }
 
             System.out.println("Average: " + calcAverage(values));
@@ -53,28 +60,34 @@ public class DiceRollerInJava {
 
     // Draw the dice face using ascii characters
     private void draw(int value) {
-        int[][] displayVal = faceConfig[value - 1];
-        System.out.println("-----");
+        if(value <= 9) {
+            int[][] displayVal = faceConfig[value - 1];
+            System.out.println("-----");
 
-        for (int i = 0; i < 3; i++) {
-            System.out.print("|");
-            for (int j = 0; j < 3; j++) {
-                if (displayVal[i][j] == 1) {
-                    System.out.print("o");
-                } else {
-                    System.out.print(" ");
+            for (int i = 0; i < 3; i++) {
+                System.out.print("|");
+                for (int j = 0; j < 3; j++) {
+                    if (displayVal[i][j] == 1) {
+                        System.out.print("o");
+                    } else {
+                        System.out.print(" ");
+                    }
                 }
+                System.out.println("|");
             }
-            System.out.println("|");
+            System.out.println("-----");
         }
-        System.out.println("-----");
+
+        else {
+            System.out.println();
+        }
 
     }
 
     // Roll the dice in Java
-    private int roll() {
+    private int roll(int maxValue) {
         Random r = new Random();
-        return r.nextInt(6) + 1;
+        return r.nextInt(maxValue) + 1;
     }
 
     private static float calcAverage(ArrayList<Integer> values) {
