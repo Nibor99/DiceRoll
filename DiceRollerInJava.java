@@ -22,11 +22,17 @@ public class DiceRollerInJava {
         DiceRollerInJava dice = new DiceRollerInJava();
 
         while (true) {
-
-            ArrayList<Integer> values = new ArrayList<Integer>();
-
             System.out.println("Do you want to roll dice? (type yes to contine and no to quit):");
             String input = scanner.nextLine();
+            if (input.equalsIgnoreCase("n") ||
+                    input.equalsIgnoreCase("no")) {
+                System.out.println("Bye!");
+                scanner.close();
+                break;
+            }
+            ArrayList<Integer> values = new ArrayList<Integer>();
+
+
             System.out.println("How many dices do you want to roll? (type an integer value):");
             Integer dices = Integer.valueOf(scanner.nextLine());
 
@@ -40,12 +46,8 @@ public class DiceRollerInJava {
 
             System.out.println("Average: " + calcAverage(values));
             System.out.println("Sum: " + calcSum(values));
-            if (input.equalsIgnoreCase("n") ||
-                    input.equalsIgnoreCase("no")) {
-                System.out.println("Bye!");
-                scanner.close();
-                return;
-            }
+            System.out.println("now ");
+
         }
     }
 
