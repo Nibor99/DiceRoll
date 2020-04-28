@@ -36,18 +36,30 @@ public class DiceRollerInJava {
                 System.out.println("Bye!");
                 scanner.close();
                 break;
+            } else if (!input.equalsIgnoreCase("y") &&
+                        !input.equalsIgnoreCase("yes")) {
+                continue;
             }
-            ArrayList<Integer> values = new ArrayList<Integer>();
-
+            ArrayList<Integer> values = new ArrayList<>();
 
             System.out.println("How many dices do you want to roll? (type an integer value):");
-            Integer dices = Integer.valueOf(scanner.nextLine());
+            int dices = Integer.parseInt(scanner.nextLine());
 
-            System.out.println("What do you want the maximum dice value to be?");
-            Integer maxVal = Integer.valueOf(scanner.nextLine());
+            int minValue = -1;
+            int maxValue = -1;
+
+            while (minValue <= 0) {
+                System.out.println("What do you want the minimum dice value to be?");
+                minValue = Integer.parseInt(scanner.nextLine());
+            }
+
+            while (maxValue <= minValue) {
+                System.out.println("What do you want the maximum dice value to be (must be bigger than the minimum value)?");
+                maxValue = Integer.parseInt(scanner.nextLine());
+            }
 
             for (int i = 0; i < dices; i++) {
-                int result = dice.roll(maxVal);
+                int result = dice.roll(minValue, maxValue);
                 values.add(result);
                 System.out.println("Value: " + ANSI_RED + result + ANSI_RESET);
                 dice.draw(result);
@@ -86,9 +98,9 @@ public class DiceRollerInJava {
     }
 
     // Roll the dice in Java
-    private int roll(int maxValue) {
+    private int roll(int minValue, int maxValue) {
         Random r = new Random();
-        return r.nextInt(maxValue) + 1;
+        return minValue + r.nextInt(maxValue-(minValue-1));
     }
 
     private static float calcAverage(ArrayList<Integer> values) {
