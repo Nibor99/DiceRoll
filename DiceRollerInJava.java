@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -14,10 +15,15 @@ public class DiceRollerInJava {
             { { 1, 0, 1 }, { 0, 1, 0 }, { 1, 0, 1 } },
             { { 1, 0, 1 }, { 1, 0, 1 }, { 1, 0, 1 } } };
 
+
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         DiceRollerInJava dice = new DiceRollerInJava();
+
         while (true) {
+
+            ArrayList<Integer> values = new ArrayList<Integer>();
 
             System.out.println("Do you want to roll dice? (type yes to contine and no to quit):");
             String input = scanner.nextLine();
@@ -26,11 +32,14 @@ public class DiceRollerInJava {
 
             for (int i = 0; i < dices; i++) {
                 int result = dice.roll();
+                values.add(result);
                 System.out.println("dice face value:" + result);
                 dice.draw(result);
 
             }
 
+            System.out.println("Average: " + calcAverage(values));
+            System.out.println("Sum: " + calcSum(values));
             if (input.equalsIgnoreCase("n") ||
                     input.equalsIgnoreCase("no")) {
                 System.out.println("Bye!");
@@ -64,5 +73,21 @@ public class DiceRollerInJava {
     private int roll() {
         Random r = new Random();
         return r.nextInt(6) + 1;
+    }
+
+    private static float calcAverage(ArrayList<Integer> values) {
+        float average = 0;
+        for(int value : values) {
+            average += value;
+        }
+        return average/values.size();
+    }
+
+    private static int calcSum(ArrayList<Integer> values) {
+        int sum = 0;
+        for(int value : values) {
+            sum += value;
+        }
+        return sum;
     }
 }
