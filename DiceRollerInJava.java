@@ -49,7 +49,7 @@ public class DiceRollerInJava {
             for (int i = 0; i < dices; i++) {
                 int result = dice.roll(maxVal);
                 values.add(result);
-                System.out.println("Value:" + ANSI_RED + result + ANSI_RESET);
+                System.out.println("Value: " + ANSI_RED + result + ANSI_RESET);
                 dice.draw(result);
             }
 
