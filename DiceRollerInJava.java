@@ -17,7 +17,7 @@ public class DiceRollerInJava {
             { { 1, 0, 1 }, { 1, 0, 1 }, { 1, 0, 1 } },
             { { 1, 0, 1 }, { 1, 1, 1 }, { 1, 0, 1 } },
             { { 1, 1, 1 }, { 1, 0, 1 }, { 1, 1, 1 } },
-            { { 1, 0, 1 }, { 1, 1, 1 }, { 1, 0, 1 } },
+            { { 1, 1, 1 }, { 1, 1, 1 }, { 1, 1, 1 } },
     };
 
     public static final String ANSI_RED = "\u001B[31m";
@@ -36,38 +36,46 @@ public class DiceRollerInJava {
                 System.out.println("Bye!");
                 scanner.close();
                 break;
-            } else if (!input.equalsIgnoreCase("y") &&
-                        !input.equalsIgnoreCase("yes")) {
-                continue;
             }
-            ArrayList<Integer> values = new ArrayList<>();
+            else if (input.equalsIgnoreCase("y") ||
+                    input.equalsIgnoreCase("yes")) {
+                ArrayList<Integer> values = new ArrayList<Integer>();
 
-            System.out.println("How many dices do you want to roll? (type an integer value):");
-            int dices = Integer.parseInt(scanner.nextLine());
 
-            int minValue = -1;
-            int maxValue = -1;
+                System.out.println("How many dices do you want to roll? (type an integer value):");
+                Integer dices = Integer.parseInt(scanner.nextLine());
 
-            while (minValue <= 0) {
-                System.out.println("What do you want the minimum dice value to be?");
-                minValue = Integer.parseInt(scanner.nextLine());
+                int minValue = -1;
+                int maxValue = -1;
+
+                while (minValue <= 0) {
+                    System.out.println("What do you want the minimum dice value to be?");
+                    minValue = Integer.parseInt(scanner.nextLine());
+                }
+
+                while (maxValue <= minValue) {
+                    System.out.println("What do you want the maximum dice value to be (must be bigger than the minimum value)?");
+                    maxValue = Integer.parseInt(scanner.nextLine());
+                }
+
+                for (int i = 0; i < dices; i++) {
+                    int result = dice.roll(minValue, maxValue);
+                    values.add(result);
+                    System.out.println("Value: " + ANSI_RED + result + ANSI_RESET);
+                    dice.draw(result);
+                }
+
+                System.out.println("Average: "  + ANSI_RED + calcAverage(values) + ANSI_RESET);
+                System.out.println("Sum: " + ANSI_RED + calcSum(values) + ANSI_RESET);
+
+
+
             }
+            else{
+                System.out.println("Try again");
+                System.out.println("Only use 'yes', 'y', 'no' & 'n' to answer the question.");
 
-            while (maxValue <= minValue) {
-                System.out.println("What do you want the maximum dice value to be (must be bigger than the minimum value)?");
-                maxValue = Integer.parseInt(scanner.nextLine());
             }
-
-            for (int i = 0; i < dices; i++) {
-                int result = dice.roll(minValue, maxValue);
-                values.add(result);
-                System.out.println("Value: " + ANSI_RED + result + ANSI_RESET);
-                dice.draw(result);
-            }
-
-            System.out.println("Average: "  + ANSI_RED + calcAverage(values) + ANSI_RESET);
-            System.out.println("Sum: " + ANSI_RED + calcSum(values) + ANSI_RESET);
-
         }
     }
 
