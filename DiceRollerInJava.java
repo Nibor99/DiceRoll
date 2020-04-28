@@ -20,6 +20,8 @@ public class DiceRollerInJava {
             { { 1, 0, 1 }, { 1, 1, 1 }, { 1, 0, 1 } },
     };
 
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_RESET = "\u001B[0m";
 
 
     public static void main(String[] args) {
@@ -47,13 +49,12 @@ public class DiceRollerInJava {
             for (int i = 0; i < dices; i++) {
                 int result = dice.roll(maxVal);
                 values.add(result);
-                System.out.println("Value:" + result);
+                System.out.println("Value:" + ANSI_RED + result + ANSI_RESET);
                 dice.draw(result);
             }
 
-            System.out.println("Average: " + calcAverage(values));
-            System.out.println("Sum: " + calcSum(values));
-            System.out.println("now ");
+            System.out.println("Average: "  + ANSI_RED + calcAverage(values) + ANSI_RESET);
+            System.out.println("Sum: " + ANSI_RED + calcSum(values) + ANSI_RESET);
 
         }
     }
@@ -68,7 +69,7 @@ public class DiceRollerInJava {
                 System.out.print("|");
                 for (int j = 0; j < 3; j++) {
                     if (displayVal[i][j] == 1) {
-                        System.out.print("o");
+                        System.out.print(ANSI_RED + "o" + ANSI_RESET);
                     } else {
                         System.out.print(" ");
                     }
